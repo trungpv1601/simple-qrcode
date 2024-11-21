@@ -35,6 +35,7 @@ use SimpleSoftwareIO\QrCode\CustomEyes\CircleEye;
 use SimpleSoftwareIO\QrCode\CustomEyes\DiamondEye;
 use SimpleSoftwareIO\QrCode\CustomEyes\FlowerEye;
 use SimpleSoftwareIO\QrCode\CustomEyes\LeafEye;
+use SimpleSoftwareIO\QrCode\CustomEyes\RoundedEye;
 use SimpleSoftwareIO\QrCode\CustomEyes\RoundedSquareEye;
 use SimpleSoftwareIO\QrCode\DataTypes\DataTypeInterface;
 
@@ -349,8 +350,8 @@ class Generator
      */
     public function eye(string $style): self
     {
-        if (! in_array($style, ['square', 'circle', 'rounded', 'flower', 'diamond', 'leaf', 'rounded-square'])) {
-            throw new InvalidArgumentException("\$style must be square, circle, rounded, flower, diamond, leaf, or rounded-square. {$style} is not a valid eye style.");
+        if (! in_array($style, ['square', 'circle', 'rounded', 'flower', 'diamond', 'leaf'])) {
+            throw new InvalidArgumentException("\$style must be square, circle, rounded, flower, diamond, leaf. {$style} is not a valid eye style.");
         }
 
         $this->eyeStyle = $style;
@@ -367,8 +368,8 @@ class Generator
      */
     public function externalEye(string $style): self
     {
-        if (! in_array($style, ['square', 'circle', 'pointy', 'rounded', 'flower', 'diamond', 'leaf', 'rounded-square'])) {
-            throw new InvalidArgumentException("\$style must be square, rounded, pointy, flower, diamond, leaf, or rounded-square. {$style} is not a valid eye style.");
+        if (! in_array($style, ['square', 'circle', 'pointy', 'rounded', 'flower', 'diamond', 'leaf'])) {
+            throw new InvalidArgumentException("\$style must be square, rounded, pointy, flower, diamond, leaf. {$style} is not a valid eye style.");
         }
 
         $this->externalEyeStyle = $style;
@@ -547,7 +548,7 @@ class Generator
         }
 
         if ($this->externalEyeStyle === 'rounded') {
-            $externalEye = RoundedSquareEye::instance();
+            $externalEye = RoundedEye::instance();
         }
 
         if ($this->externalEyeStyle === 'flower') {
@@ -562,10 +563,6 @@ class Generator
             $externalEye = LeafEye::instance();
         }
 
-        if ($this->externalEyeStyle === 'rounded-square') {
-            $externalEye = RoundedSquareEye::instance();
-        }
-
         // internal eye
         if ($this->eyeStyle === 'square') {
             $internalEye = SquareEye::instance();
@@ -576,7 +573,7 @@ class Generator
         }
 
         if ($this->eyeStyle === 'rounded') {
-            $internalEye = RoundedSquareEye::instance();
+            $internalEye = RoundedEye::instance();
         }
 
         if ($this->eyeStyle === 'flower') {
@@ -589,10 +586,6 @@ class Generator
 
         if ($this->eyeStyle === 'leaf') {
             $internalEye = LeafEye::instance();
-        }
-
-        if ($this->eyeStyle === 'rounded-square') {
-            $internalEye = RoundedSquareEye::instance();
         }
 
         return new CompositeEye($externalEye, $internalEye);
